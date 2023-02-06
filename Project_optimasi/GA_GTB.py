@@ -2,6 +2,8 @@ import numpy as np
 import random
 from integrationGTGBfunc import integrationGTGB
 import matplotlib.pyplot as plt
+import openpyxl
+
 
 Npop = 100 #populasi
 Maxit = 200 #iterasi
@@ -47,6 +49,7 @@ for i in range(Npop):
 Datfit = []
 for i in range(Individu.shape[0]):
     fitness = integrationGTGB(Individu[i, :])
+    #print(Individu[i, :])
     Datfit.append(fitness)
 
 if Datfit:
