@@ -27,7 +27,6 @@ eIndividuMax = []
 
 Bangkit = np.round(np.random.rand(Npop, Nbit * Nvar))
 popsize = Bangkit.shape[0]
-print(Bangkit.shape)
 batas = np.zeros((Nvar))
 for i in range(Nvar):
     batas[i] = ra[i] - rb[i]
@@ -44,6 +43,7 @@ for i in range(Npop):
             Desimal[i][j] = 0
         Individu[i][j] = (Desimal[i][j] * batas[j] - batas[j] + rb[j]) / (2**Nbit - 1)
 
+############## Masih Perlu perbaikan Batas Atas###############
 Datfit = []
 for i in range(Individu.shape[0]):
     fitness = integrationGTGB(Individu[i, :])
@@ -52,15 +52,15 @@ for i in range(Individu.shape[0]):
 if Datfit:
     fitemax = np.max(Datfit)
     nmax = np.argmax(Datfit)
-
+############## Masih Perlu perbaikan Batas Bawah###############
 Dadatfit = []
 Prob = np.zeros_like(Datfit)
 for generasi in range(1, Maxit+1):
     print(f"Generasi ke {generasi}")
     if generasi > 1:
         sortfit = np.random.rand(Npop, Nbit * Nvar + 1)
-        Individu1 = sortfit[int((1-el)*Npop):,:]
-        remain = sortfit[:int(el*Npop),:]
+        Individu1 = sortfit[int((1-el)*Npop):Npop,:]
+        remain = sortfit[int(el*Npop):Npop,:]
         X = Individu1
         M = X.shape[0]
 
@@ -107,8 +107,8 @@ for generasi in range(1, Maxit+1):
                 if p <= Pm:
                     Xnew[i][j] = 1 - Xcrossed[i][j]
         print(f'New fitness calculation:{generasi}')
-        #Bangkit[perlu perbaikan] = np.concatenate((Xnew[:Npop, :Nbit*Nvar], remain[:Npop, :Nbit*Nvar]), axis=0)
-    eBangkit = Bangkit#[perlu perbaikan]
+        Bangkit = np.concatenate((Xnew[:, :Nbit*Nvar], remain[:, :Nbit*Nvar]))
+    #eBangkit = Bangkit
     for i in range(Npop):
         for j in range(Nvar):
             slice = Bangkit[i][((j*Nbit)-(Nbit-1)):(j*Nbit)]
@@ -118,11 +118,15 @@ for generasi in range(1, Maxit+1):
             else:
                 Desimal[i][j] = 0
             Individu[i][j] = (Desimal[i][j] * batas[j] - batas[j] + rb[j]) / (2**Nbit - 1)
+    
+############## Masih Perlu perbaikan Batas Atas###############
     Datfit = []
     for i in range(Npop):
         fitness = integrationGTGB(Individu[i,:])
         Datfit.append(fitness)
-        
+    
+############## Masih Perlu perbaikan Batas Bawah###############
+    
     fitemax = np.max(Datfit)
     nmax = np.argmax(Datfit)
     nmax=100
@@ -146,8 +150,7 @@ for generasi in range(1, Maxit+1):
 
 #AFR = eIndividuMax[0, 8] / eIndividuMax[0, 3]
 
-print("sukses")
-print(efitnessmax)
+
 plt.title('Grafik Fitness GA selama Iterasi', color='b')
 plt.xlabel('Iterasi')
 plt.ylabel('Efisiensi (0-1)')
