@@ -6,9 +6,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow import keras
 from integrationGTGBfunc import integrationfian
-import matplotlib as plt
-
-
+import matplotlib.pyplot as plt
 
 Npop = 100 #populasi
 Maxit = 200 #iterasi
